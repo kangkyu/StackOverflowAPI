@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.example.android.stackoverflowapi.model.StackOverflowUser;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder> {
 
@@ -43,7 +45,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
 
     @Override
     public void onBindViewHolder(UsersViewHolder holder, int position) {
-        holder.helloWorld.setText(users.get(position).getReputation());
+        holder.userName.setText(users.get(position).getName());
+        holder.userReputation.setText(commaInNumber(users.get(position).getReputation()));
+        holder.userLocation.setText(users.get(position).getLocation());
     }
 
     @Override
@@ -52,12 +56,21 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
     }
 
     class UsersViewHolder extends RecyclerView.ViewHolder {
-        TextView helloWorld;
+        TextView userName;
+        TextView userReputation;
+        TextView userLocation;
 
         public UsersViewHolder(View view) {
             super(view);
 
-            helloWorld = (TextView) view.findViewById(R.id.hello_world);
+            userName = (TextView) view.findViewById(R.id.user_name);
+            userReputation = (TextView) view.findViewById(R.id.user_reputation);
+            userLocation = (TextView) view.findViewById(R.id.user_location);
         }
+    }
+
+    private String commaInNumber(String number) {
+        return NumberFormat.getNumberInstance(Locale.getDefault())
+                .format(Integer.parseInt(number));
     }
 }

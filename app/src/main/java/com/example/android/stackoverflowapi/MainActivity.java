@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         final UserEndPoints apiService = APIClient.getClient().create(UserEndPoints.class);
         Call<UsersReceived> call = apiService.getUsers();
 
-        call.enqueue(new Callback<UsersReceived>(){
+        call.enqueue(new Callback<UsersReceived>() {
             @Override
             public void onResponse(Call<UsersReceived> call, Response<UsersReceived> response) {
                 myDataSource.clear();
