@@ -1,5 +1,7 @@
 package com.example.android.stackoverflowapi;
 
+import com.example.android.stackoverflowapi.model.UsersReceived;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 

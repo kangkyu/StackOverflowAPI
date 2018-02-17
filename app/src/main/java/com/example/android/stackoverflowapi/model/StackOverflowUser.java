@@ -1,8 +1,8 @@
-package com.example.android.stackoverflowapi;
+package com.example.android.stackoverflowapi.model;
 
 import com.google.gson.annotations.SerializedName;
 
-class StackOverflowUser {
+public class StackOverflowUser {
     @SerializedName("reputation")
     private String reputation;
 
