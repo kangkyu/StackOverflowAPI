@@ -9,19 +9,19 @@ import android.widget.TextView;
 
 import java.util.List;
 
-class UsersAdapter extends android.support.v7.widget.RecyclerView.Adapter {
+public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder> {
 
-    private List<String> users;
+    private List<StackOverflowUser> users;
     private int rowLayout;
     private Context context;
 
-    public UsersAdapter(List<String> users, int rowLayout, Context context) {
+    public UsersAdapter(List<StackOverflowUser> users, int rowLayout, Context context) {
         this.setUsers(users);
         this.setRowLayout(rowLayout);
         this.setContext(context);
     }
 
-    public void setUsers(List<String> users) {
+    public void setUsers(List<StackOverflowUser> users) {
         this.users = users;
     }
 
@@ -34,22 +34,22 @@ class UsersAdapter extends android.support.v7.widget.RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UsersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(rowLayout, parent, false);
         return new UsersViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(UsersViewHolder holder, int position) {
+        holder.helloWorld.setText(users.get(position).getReputation());
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return users.size();
     }
 
-    private class UsersViewHolder extends RecyclerView.ViewHolder {
+    class UsersViewHolder extends RecyclerView.ViewHolder {
         TextView helloWorld;
 
         public UsersViewHolder(View view) {

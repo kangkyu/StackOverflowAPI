@@ -5,12 +5,19 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView mUsersView;
     RecyclerView.Adapter usersAdapter;
+    List<StackOverflowUser> myDataSource = new ArrayList<StackOverflowUser>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +28,29 @@ public class MainActivity extends AppCompatActivity {
 
         mUsersView.setLayoutManager(new LinearLayoutManager(this));
 
-        usersAdapter = new UsersAdapter(Collections.<String>emptyList(), R.layout.item_user, getApplicationContext());
+        usersAdapter = new UsersAdapter(myDataSource, R.layout.item_user, getApplicationContext());
         mUsersView.setAdapter(usersAdapter);
+
+        loadUsers();
+    }
+
+    public void loadUsers() {
+        final UserEndPoints apiService = APIClient.getClient().create(UserEndPoints.class);
+        Call<UsersReceived> call = apiService.getUsers();
+
+        call.enqueue(new Callback<UsersReceived>(){
+            @Override
+            public void onResponse(Call<UsersReceived> call, Response<UsersReceived> response) {
+                myDataSource.clear();
+                myDataSource.addAll(response.body().getStackOverflowUsers());
+                usersAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<UsersReceived> call, Throwable t) {
+                // log error
+                System.out.println("Failed!" + t.toString());
+            }
+        });
     }
 }
